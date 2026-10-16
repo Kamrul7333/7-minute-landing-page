@@ -1,255 +1,69 @@
+
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ভিডিও আনলক করুন</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Arial, sans-serif;
-        }
-
-        body {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-            color: #ffffff;
-        }
-
-        .card {
-            background: #ffffff;
-            border-radius: 16px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-            max-width: 420px;
-            width: 100%;
-            overflow: hidden;
-            text-align: center;
-            color: #1e293b;
-        }
-
-        /* Thumbnail styling with Play Button overlay */
-        .thumbnail-container {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            background-color: #000;
-            overflow: hidden;
-        }
-
-        .thumbnail-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0.9;
-        }
-
-        .play-icon {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 60px;
-            height: 60px;
-            background: rgba(239, 68, 68, 0.9);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 0 20px rgba(239, 68, 68, 0.6);
-        }
-
-        .play-icon::after {
-            content: '';
-            display: block;
-            width: 0;
-            height: 0;
-            border-style: solid;
-            border-width: 10px 0 10px 18px;
-            border-color: transparent transparent transparent #ffffff;
-            margin-left: 4px;
-        }
-
-        .badge {
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            background: rgba(0, 0, 0, 0.75);
-            color: #fff;
-            padding: 4px 8px;
-            font-size: 12px;
-            font-weight: bold;
-            border-radius: 4px;
-        }
-
-        .content {
-            padding: 24px 20px;
-        }
-
-        .caption {
-            font-size: 18px;
-            font-weight: 700;
-            color: #0f172a;
-            margin-bottom: 12px;
-            line-height: 1.4;
-        }
-
-        .instruction {
-            font-size: 14px;
-            color: #64748b;
-            margin-bottom: 20px;
-            background: #f1f5f9;
-            padding: 8px 12px;
-            border-radius: 8px;
-            display: inline-block;
-        }
-
-        .btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            padding: 14px;
-            margin: 10px 0;
-            font-size: 15px;
-            font-weight: 600;
-            color: #ffffff;
-            background: #3b82f6;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-        }
-
-        .btn:hover:not(:disabled) {
-            background: #2563eb;
-            transform: translateY(-2px);
-        }
-
-        .btn:disabled {
-            background: #cbd5e1;
-            color: #94a3b8;
-            box-shadow: none;
-            cursor: not-allowed;
-        }
-
-        .btn-completed {
-            background: #10b981 !important;
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3) !important;
-        }
-
-        .btn-main {
-            background: #ef4444;
-            font-size: 16px;
-            margin-top: 15px;
-            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
-        }
-
-        .btn-main:hover:not(:disabled) {
-            background: #dc2626;
-        }
-
-        .divider {
-            height: 1px;
-            background: #e2e8f0;
-            margin: 15px 0;
-        }
-
-        .tracker-container {
-            margin-top: 15px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Watch Video</title>
+<style>
+body{margin:0;background:#101116;color:#fff;font-family:Arial,sans-serif;padding:16px}
+.wrap{max-width:650px;margin:24px auto;text-align:center}
+h2{font-size:23px;line-height:1.5}
+.thumb{position:relative;display:block;border-radius:12px;overflow:hidden}
+.thumb img{display:block;width:100%;height:auto}
+.play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:#f01828;width:76px;height:54px;border-radius:13px;display:grid;place-items:center}
+.play:after{content:"";border-top:12px solid transparent;border-bottom:12px solid transparent;border-left:19px solid white;margin-left:5px}
+.btn{display:block;padding:15px;margin:18px 0;border-radius:8px;background:#f01828;color:#fff;text-decoration:none;font-weight:bold}
+#continue{background:#168b50}
+#timer{font-size:19px;font-weight:bold;margin:18px 0}
+.note{color:#c5c5cc;font-size:14px;line-height:1.6}
+</style>
 </head>
 <body>
+<div class="wrap">
+  <h2>ভিডিও দেখতে নিচে ক্লিক করুন</h2>
 
-<div class="card">
-    <!-- ভিডিও থাম্বনেল -->
-    <div class="thumbnail-container">
-        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgLuQNJoBfqWQLr_WVB1HgHhfnB1sZ103CKXZYaxFn8aQp3AVsYTHNt6vye4zoapi9eYFZieiign37C-osnRRr10xAYrsMWoKJ_pNn8xFQ7oDYe7AHPkuLc82Fgfb7f9cJ9M6e61s0qeDTXm8FqRxhcXfAn9bHS2QlQdCgBzsfFuB4U2RLQhSUf80DiySsU/s3264/20260723_052242.jpg" alt="Video Thumbnail" class="thumbnail-img">
-        <div class="play-icon"></div>
-        <div class="badge">07:00</div>
-    </div>
+  <a class="thumb"
+     href="https://pinklink3.blogspot.com/2026/10/blog-post.html"
+     aria-label="ভিডিও পেজ খুলুন">
+    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhF8hOkw8Wctc5lNZec6jjC6A0CzpkHlQb-x4Gzcq_rTihAqc7pzt4IiroVYCozyrLWTEOgq-cD77vPVhd6RckE2vBzoUG5oS2aEUmqxnz0-R9MZ8VzUbWIqeFPHG5c9y-5iMO0vvGIZ3YZ3WcYmvH0jaHBOfMsbH1xSSoE3OVT-CTeK4-q-9qbPDS_onKc/s320/Screenshot_2026-10-17-02-49-03-340_com.miui.gallery_1792183756129edit.jpg"
+         alt="ভিডিও থাম্বনেইল">
+    <span class="play"></span>
+  </a>
 
-    <div class="content">
-        <!-- ভিডিও ক্যাপশন -->
-        <h1 class="caption">পিচ্চি মেয়ে ও মহিলার 7 মিনিটের ভাইরাল ভিডিও</h1>
-        
-        <div class="instruction">
-            🔓 ভিডিও আনলক করতে দুইটি এড দেখুন
-        </div>
+  <a class="btn"
+     href="https://pinklink3.blogspot.com/2026/10/blog-post.html">
+    ▶ প্রথম ভিডিও পেজ খুলুন
+  </a>
 
-        <!-- এড বাটনসমূহ -->
-        <button id="ad1Btn" class="btn" onclick="startAd(1, 'https://omg10.com/4/11194601')">
-            প্রথম এড দেখুন
-        </button>
-        
-        <button id="ad2Btn" class="btn" onclick="startAd(2, 'https://omg10.com/4/11371244')">
-            দ্বিতীয় এড দেখুন
-        </button>
+  <p class="note">পরবর্তী গন্তব্যে যেতে ১০ সেকেন্ড অপেক্ষা করুন।</p>
+  <div id="timer">১০ সেকেন্ড</div>
 
-        <div class="divider"></div>
+  <a id="continue" class="btn"
+     href="https://uplcm.com/4/12049753"
+     hidden>
+    Continue to Destination →
+  </a>
 
-        <!-- মূল ভিডিও আনলক বাটন -->
-        <button id="mainBtn" class="btn btn-main" disabled onclick="openMainLink()">
-            🔒 ফুল ভিডিও দেখুন (লক করা)
-        </button>
-
-        <!-- ট্রাফিক ট্র্যাকার -->
-        <div class="tracker-container">
-            <div align=center><a href='https://www.counter12.com'><img src='https://www.counter12.com/img-A772ZYwBZWxCY0CW-5.gif' border='0' alt='conter12'></a><script type='text/javascript' src='https://www.counter12.com/ad.js?id=A772ZYwBZWxCY0CW'></script></div>
-        </div>
-    </div>
+  <p class="note">Continue বাটনে ক্লিক করলে পরবর্তী পেজ খুলবে।</p>
 </div>
 
 <script>
-    let ad1Completed = false;
-    let ad2Completed = false;
+let seconds = 10;
+const timer = document.getElementById("timer");
+const button = document.getElementById("continue");
 
-    function startAd(adNumber, url) {
-        // নতুন ট্যাবে এড ওপেন হবে
-        window.open(url, '_blank');
+const countdown = setInterval(() => {
+  seconds--;
+  timer.textContent = seconds > 0
+    ? seconds + " সেকেন্ড বাকি"
+    : "এখন এগিয়ে যেতে পারো";
 
-        const btn = document.getElementById(`ad${adNumber}Btn`);
-        btn.disabled = true;
-
-        let timeLeft = 10;
-        btn.innerText = `অপেক্ষা করুন (${timeLeft} সেকেন্ড)`;
-
-        const timer = setInterval(() => {
-            timeLeft--;
-            if (timeLeft > 0) {
-                btn.innerText = `অপেক্ষা করুন (${timeLeft} সেকেন্ড)`;
-            } else {
-                clearInterval(timer);
-                btn.innerText = `✓ এড ${adNumber} দেখা সম্পন্ন`;
-                btn.classList.add('btn-completed');
-
-                if (adNumber === 1) ad1Completed = true;
-                if (adNumber === 2) ad2Completed = true;
-
-                checkUnlockStatus();
-            }
-        }, 1000);
-    }
-
-    function checkUnlockStatus() {
-        if (ad1Completed && ad2Completed) {
-            const mainBtn = document.getElementById('mainBtn');
-            mainBtn.disabled = false;
-            mainBtn.innerText = '▶ এখনই প্লে করুন';
-        }
-    }
-
-    function openMainLink() {
-        window.location.href = 'https://kamrul7333.github.io/7-minutes-viral/';
-    }
+  if (seconds <= 0) {
+    clearInterval(countdown);
+    button.hidden = false;
+  }
+}, 1000);
 </script>
-
 </body>
 </html>
